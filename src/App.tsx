@@ -1,26 +1,40 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { FC } from "react";
+import useMemoState from "./useMemoState";
 
-function App() {
+interface Props {
+  exampleFunction: () => void;
+}
+
+const App: FC<Props> = ({ exampleFunction }) => {
+  const [state, setState] = useMemoState<object>({
+    val: 1,
+    obj: { val: 3, val2: [1, 3] },
+  });
+
+  exampleFunction();
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <button
+        className="testOne"
+        onClick={() =>
+          setState({
+            val: 1,
+            obj: { val: 3, val2: [1, 3] },
+          })
+        }
+      >
+        test one
+      </button>
+      <button
+        className="testTwo"
+        onClick={() => setState({ val: 3, obj: { val: 4, val2: [2, 7] } })}
+      >
+        test two
+      </button>
+      <div>{JSON.stringify(state, null, 2)}</div>
     </div>
   );
-}
+};
 
 export default App;
